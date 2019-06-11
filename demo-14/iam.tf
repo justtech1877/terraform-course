@@ -43,4 +43,3 @@ resource "aws_iam_role_policy" "s3-mybucket-role-policy" {
 }
 EOF
 }
-
