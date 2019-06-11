@@ -24,8 +24,8 @@ resource "aws_db_instance" "mariadb" {
   instance_class       = "db.t2.small"    # use micro if you want to use the free tier
   identifier           = "mariadb"
   name                 = "mariadb"
-  username             = "root"   # username
-  password             = "${var.RDS_PASSWORD}" # password
+  username             = "root"   # DB username
+  password             = "${var.RDS_PASSWORD}" # DB password
   db_subnet_group_name = "${aws_db_subnet_group.mariadb-subnet.name}"
   parameter_group_name = "${aws_db_parameter_group.mariadb-parameters.name}"
   multi_az             = "false"     # set to true to have high availability: 2 instances synchronized with each other
@@ -33,7 +33,8 @@ resource "aws_db_instance" "mariadb" {
   storage_type         = "gp2"
   backup_retention_period = 30    # how long you’re going to keep your backups
   availability_zone = "${aws_subnet.main-private-1.availability_zone}"   # prefered AZ
-  tags {
+  skip_final_snapshot = true   # skip final snapshot when doing terraform destroy
+  tags = {
       Name = "mariadb-instance"
   }
 }
