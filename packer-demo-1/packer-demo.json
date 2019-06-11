@@ -1,0 +1,46 @@
+{
+
+  "variables" : {
+    "PackerKeyAccess" : "",
+    "PackerKeySecret" : "",
+    "Region" : "eu-west-2",
+    "PackerInstanceSubnetId" : "subnet-08d08f024319a4939",
+    "Environment" : "dev",
+    "AmiName" : "tf-packer {{timestamp}}",
+  "SourceAmi" : ""
+  },
+  "builders" : [{
+    "type" : "amazon-ebs",
+    "ssh_pty" : "true",
+    "access_key" : "{{user `PackerKeyAccess`}}",
+    "secret_key" : "{{user `PackerKeySecret`}}",
+    "region" : "{{user `Region`}}",
+    "source_ami" : "{{user `SourceAmi`}}",
+    "instance_type" : "t2.micro",
+    "ssh_username" : "ubuntu",
+    "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-20190605",
+          "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
+    },
+    "ami_name" : "{{user `AmiName`}}",
+    "subnet_id" : "{{user `PackerInstanceSubnetId`}}"
+  }],
+
+  "provisioners": [
+  {
+    "type": "file",
+    "source": "app",
+    "destination": "/tmp/app"
+  },
+  {
+    "type": "shell",
+    "scripts": [  "scripts/deploy.sh"   ],
+    "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+    "pause_before": "10s"
+  }]
+}
