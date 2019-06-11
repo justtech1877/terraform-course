@@ -1,18 +1,35 @@
 {
-  "variables": {
-    "aws_access_key": "",
-    "aws_secret_key": ""
-  },
-  "builders": [{
-    "type": "amazon-ebs",
-    "access_key": "{{user `aws_access_key`}}",
-    "secret_key": "{{user `aws_secret_key`}}",
-    "region": "eu-west-1",
-    "source_ami": "ami-844e0bf7",
-    "instance_type": "t2.micro",
-    "ssh_username": "ubuntu",
-    "ami_name": "packer-example {{timestamp}}"
-  }],
+  "variables" : {
+    "PackerKeyAccess" : "",
+    "PackerKeySecret" : "",
+    "Region" : "eu-west-2",
+    "PackerInstanceSubnetId" : "subnet-096410ab1058e0c5e",
+    "Environment" : "dev",
+    "AmiName" : "tf-packer {{timestamp}}",
+"SourceAmi" : ""
+},
+"builders" : [{
+    "type" : "amazon-ebs",
+    "ssh_pty" : "true",
+    "access_key" : "{{user `PackerKeyAccess`}}",
+    "secret_key" : "{{user `PackerKeySecret`}}",
+    "region" : "{{user `Region`}}",
+    "source_ami" : "{{user `SourceAmi`}}",
+    "instance_type" : "t2.micro",
+    "ssh_username" : "ubuntu",
+    "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-20190605",
+          "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
+    },
+    "ami_name" : "{{user `AmiName`}}",
+    "subnet_id" : "{{user `PackerInstanceSubnetId`}}"
+}],
+
   "provisioners": [{
     "type": "shell",
     "scripts": [  "scripts/install_software.sh"   ],
@@ -20,3 +37,5 @@
     "pause_before": "10s"
   }]
 }
+
+
