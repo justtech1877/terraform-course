@@ -1,7 +1,8 @@
-resource "aws_security_group" "example-instance" {
+
+resource "aws_security_group" "tf-demo14-instance" {
   vpc_id = "${aws_vpc.main.id}"
   name = "allow-ssh"
-  description = "security group that allows ssh and all egress traffic"
+  description = "security group that allows admion ssh and all egress traffic"
   egress {
       from_port = 0
       to_port = 0
@@ -13,10 +14,9 @@ resource "aws_security_group" "example-instance" {
       from_port = 22
       to_port = 22
       protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = ["185.100.71.242/32"]
   } 
-tags {
-    Name = "example-instance"
+tags = {
+    Name = "tf-demo14-instance"
   }
 }
-
