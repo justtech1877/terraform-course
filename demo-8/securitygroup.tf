@@ -13,9 +13,9 @@ resource "aws_security_group" "allow-ssh" {
       from_port = 22
       to_port = 22
       protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = ["185.100.71.242/32"]
   } 
-tags {
+tags = {
     Name = "allow-ssh"
   }
 }
