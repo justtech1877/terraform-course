@@ -1,6 +1,6 @@
 module "main-vpc" {
   source = "../modules/vpc"
-  ENV = "prod"
+  ENV = "${var.ENV"
   AWS_REGION = "${var.AWS_REGION}"
 }
 
