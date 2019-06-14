@@ -2,7 +2,7 @@
   {
     "essential": true,
     "memory": 256,
-    "name": "nodejsapp",
+    "name": "nodejs-app",
     "cpu": 256,
     "image": "${REPOSITORY_URL}:${APP_VERSION}",
     "workingDirectory": "/app",
