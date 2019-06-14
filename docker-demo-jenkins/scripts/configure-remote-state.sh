@@ -15,7 +15,7 @@ terraform {
 }
 ' > backend.tf
 
-terraform init
+/usr/local/bin/terraform init
 
 #terraform remote config -backend=s3 -backend-config="bucket = terraform-state-c29df1kjsadfkjb" -backend-config="key=terraform/terraform.tfstate" -backend-config="region = eu-west-2"
 
